@@ -1,0 +1,45 @@
+<h1>Information</h1>
+<h2>ID: {{cowId}}</h2>
+<p>Description:</p>
+<p>Image</p>
+<p>DOB</p>
+<p>Calving History</p>
+<table>
+    <tr>
+        <th>Calf ID</th>
+        <th>DOB</th>
+        <th>Sex</th>
+        <th>Notes</th>
+    </tr>
+    <tr>
+        <td><a href = '/cowPage/15234'>15234</a></td>
+        <td>5/4/17</td>
+        <td>bull calf</td>
+        <td>went well</td>
+    </tr>
+</table>
+<form method="POST" action="/addCow">
+    <button type="submit" >Add calf</button>
+</form>
+<p>Health History</p>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Drug</th>
+        <th>Reason</th>
+        <th>Withdrawal Period</th>
+    </tr>
+    <tr>
+        <td>11/2/17</td>
+        <td><a href = '/drugs'>Antibiotic</a></td>
+        <td>sniffles</td>
+        <td>30 days --> 12/2/17</td>
+    </tr>
+    <tr>
+    <td>11/2/17</td>
+    <td>NA</td>
+    <td>lame</td>
+    <td>NA</td>
+    </tr>
+</table>
+<input type="button" value="Add health record" />
