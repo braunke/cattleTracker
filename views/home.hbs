@@ -24,6 +24,12 @@
         <td>sold</td>
     </tr>
 </table>
+{{#each cows as |cow| }}
+    <p>{{cow.description}}</p>
+    {{/each}}
 <form method="POST" action="/addCow">
     <button type="submit" >Add cow</button>
+</form>
+<form method="POST" action="/treatment">
+    <button type="submit" >Add treatment</button>
 </form>
