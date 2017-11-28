@@ -1,2 +1,22 @@
 <h1>Add Cow</h1>
 <p>Enter info</p>
+<form method="POST" action="/addCow">
+    <p>eartag</p>
+    <input type="number" name="eartag" placeholder="eartag">
+    <p>birthing notes</p>
+    <input type="text" name="birth" placeholder="birth">
+    <p>DOB</p>
+    <input type="date" name="dob" placeholder="DOB">
+    <p>Description</p>
+    <input type="text" name="description" placeholder="description">
+    <p>Dam Eartag</p>
+    <input type="number" name="dameartag" placeholder="dam eartag">
+    <p>Sire Eartag</p>
+    <input type="number" name="sireeartag" placeholder="sire eartag">
+    <p>type</p>
+    <select name="typeId">
+    {{#each types as |type| }}
+        <option value="{{ type.typeId }}">{{ type.name}}</option>
+        {{/each}}
+    </select>
+</form>

@@ -115,13 +115,17 @@ router.get('/drugs', function(req, res, next) {
     res.render('drugs');
 });
 router.get('/addCow', function(req, res, next) {
-  res.render('addCow')
+    Types.all().then(function(type) {
+        res.render('addCow', {'types': type})
+    });
 });
 router.get('/cowPage/:id', function(req, res, next) {
     var cowId = req.params.id;
     Cow.findOne({where: { cowId: cowId }, include: [Types]}).then(function(cow){
-        console.log(cow);
-        res.render('cowPage', { 'cow' : cow });
+        Cow.findOne({where: { damId: cowId}}).then(function(calf){
+            res.render('cowPage', { 'cow' : cow , 'calves' : calf});
+        });
+
     });
 });
 router.get('/treatment', function(req, res, next) {

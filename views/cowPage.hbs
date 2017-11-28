@@ -6,18 +6,22 @@
 <h1 style="color:red">{{cow.type.name}}</h1>
 <p>Calving History</p>
 <table>
-    <tr>
+
+
+        <tr>
         <th>Calf ID</th>
         <th>DOB</th>
         <th>Sex</th>
         <th>Notes</th>
     </tr>
+{{#each calves as |calf| }}
     <tr>
-        <td><a href = '/cowPage/15234'>15234</a></td>
-        <td>5/4/17</td>
-        <td>bull calf</td>
-        <td>went well</td>
+        <td><a href = '/cowPage/{{calf.cowId}}'>{{calf.eartag}}</a></td>
+        <td>{{calf.dob}}</td>
+        <td>{{calf.birthing}}</td>
+
     </tr>
+    {{/each}}
 </table>
 <form method="POST" action="/addCow">
     <button type="submit" >Add calf</button>
