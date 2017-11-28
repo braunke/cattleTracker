@@ -37,8 +37,13 @@ var Cow = sequelize.define('cow', {
     },
     eartag: {
         type: Sequelize.INTEGER
+    },
+    damTag: {
+        type: Sequelize.INTEGER
+    },
+    sireTag: {
+        type: Sequelize.INTEGER
     }
-
 });
 var Types = sequelize.define('types', {
     typeId: {
@@ -135,8 +140,27 @@ router.post('/login', function(req, res, next) {
     res.redirect('/homePage')
 
 });
+router.post('/newCow', function(req,res,next) {
+    res.redirect('/addCow')
+});
 router.post('/addCow', function(req, res, next) {
-  res.redirect('/addCow')
+    var eartag = req.body.eartag;
+    var description = req.body.description;
+    var type = req.body.typeId;
+    var dameartag = req.body.dameartag;
+    var sireeartag = req.body.sireeartag;
+    var birthing = req.body.birth;
+    var dob = req.body.dob;
+    console.log(birthing, dameartag, sireeartag);
+  Cow.create({description: description,
+    dob: dob,
+    birthing: birthing,
+    eartag: eartag,
+    typeId: type,
+    damTag: dameartag,
+    sireTag: sireeartag}).then(
+      res.redirect('/addCow')
+  )
 });
 router.post('/treatment', function(req, res, next) {
     res.redirect('/treatments')
