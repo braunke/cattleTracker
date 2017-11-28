@@ -21,7 +21,7 @@ sequelize
     console.error('Unable to connect to the database:', err);
 });
 var Cow = sequelize.define('cow', {
-    cowid: {
+    cowId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -38,13 +38,69 @@ var Cow = sequelize.define('cow', {
     eartag: {
         type: Sequelize.INTEGER
     }
+
 });
+var Types = sequelize.define('types', {
+    typeId: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type:Sequelize.STRING
+    }
+});
+Types.hasMany(Cow, {foreignKey: 'typeId'});
+Cow.belongsTo(Types, {foreignKey: 'typeId'});
+var Treatment = sequelize.define('treatment', {
+    treatmentId: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    dateGiven: {
+        type: Sequelize.DATE
+    }
+
+});
+var Drugs = sequelize.define('drugs', {
+    drugId: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    name: {
+        type: Sequelize.STRING
+    },
+    purpose: {
+        type: Sequelize.STRING
+    },
+    withdrawalperiod: {
+        type: Sequelize.INTEGER
+    }
+});
+
+//Treatment.sync({force : true});
+//Types.sync({force : true});
 //Cow.sync({force: true});
-//Cow.create({
-//    description: 'Black cow',
-//    dob: 5/12/2016,
- //   birthing: 'unassisted birth, unassisted nursing',
- //   eartag: 123
+//Drugs.sync({force: true});
+
+//Cow.create(  {
+//    description: 'black cow',
+//    dob: 5/12/2014,
+//    birthing: 'unassisted birth, unassisted nursing',
+//    eartag: 456,
+//    typeId: 1,
+//    damId: 1,
+//    sireId:
+//});
+//Types.create( {
+//    name: 'bull'
+//});
+//Drugs.create({
+//    name: 'penicillin',
+ //   purpose: 'treats bacterial problems',
+ //   withdrawal: 5
 //});
 /* GET login page. */
 router.get('/', function(req, res, next) {
@@ -54,11 +110,6 @@ router.get('/homePage', function(req, res, next) {
     Cow.all().then(function(cow){
         res.render('home', {'cows' : cow})
     });
-
-    //console.log(cow + 'j');
-   // res.render('home', {'cows' : cow})
-
-
 });
 router.get('/drugs', function(req, res, next) {
     res.render('drugs');
@@ -67,8 +118,11 @@ router.get('/addCow', function(req, res, next) {
   res.render('addCow')
 });
 router.get('/cowPage/:id', function(req, res, next) {
-  var cowId = req.params.id;
-  res.render('cowPage', {cowId : cowId})
+    var cowId = req.params.id;
+    Cow.findOne({where: { cowId: cowId }, include: [Types]}).then(function(cow){
+        console.log(cow);
+        res.render('cowPage', { 'cow' : cow });
+    });
 });
 router.get('/treatment', function(req, res, next) {
   res.render('treatments')

@@ -8,25 +8,16 @@
         <th>Description</th>
         <th>Status</th>
     </tr>
+    {{#each cows as |cow| }}
     <tr>
-        <td><a href = '/cowPage/1234'>1234</a></td>
-        <td>black</td>
-        <td>breeding cow</td>
+        <td><a href = '/cowPage/{{cow.cowId}}'>{{cow.eartag}}</a></td>
+        <td>{{cow.description}}</td>
     </tr>
-    <tr>
-        <td>567</td>
-        <td>spots</td>
-        <td>steer</td>
-    </tr>
-    <tr>
-        <td>987</td>
-        <td>red</td>
-        <td>sold</td>
-    </tr>
-</table>
-{{#each cows as |cow| }}
-    <p>{{cow.description}}</p>
+
+
     {{/each}}
+</table>
+
 <form method="POST" action="/addCow">
     <button type="submit" >Add cow</button>
 </form>
