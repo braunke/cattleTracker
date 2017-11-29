@@ -14,7 +14,7 @@
         <th>Sex</th>
         <th>Notes</th>
     </tr>
-{{#each calves as |calf| }}
+    {{#each calves as |calf| }}
     <tr>
         <td><a href = '/cowPage/{{calf.cowId}}'>{{calf.eartag}}</a></td>
         <td>{{calf.dob}}</td>
@@ -34,17 +34,12 @@
         <th>Reason</th>
         <th>Withdrawal Period</th>
     </tr>
+    {{#each cow.treatments as |treatment| }}
     <tr>
-        <td>11/2/17</td>
-        <td><a href = '/drugs'>Antibiotic</a></td>
-        <td>sniffles</td>
-        <td>30 days --> 12/2/17</td>
+        <td>{{treatment.givendate}}</td>
+        <td>{{treatment.drug.name}}</td>
+        <td>{{treatment.notes}}</td>
+        <td>{{treatment.drug.withdrawalperiod}} days --> {{treatment.withdrawaldate}}</td>
     </tr>
-    <tr>
-    <td>11/2/17</td>
-    <td>NA</td>
-    <td>lame</td>
-    <td>NA</td>
-    </tr>
+    {{/each}}
 </table>
-<input type="button" value="Add health record" />

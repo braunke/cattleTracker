@@ -1,3 +1,18 @@
 <h1>New Treatment</h1>
-<p>Type</p>
-<p>Who gets it</p>
+<form method="POST" action="/treatment">
+    <select name="cowId">
+    {{#each cows as |cow| }}
+        <option value="{{ cow.cowId }}">{{ cow.eartag}}</option>
+    {{/each}}
+    </select>
+    <p>date given</p>
+    <input type="date" name="dateGiven" placeholder="Date Given">
+    <p>reason</p>
+    <input type="text" name="notes" placeholder="reason">
+    <select name="drugId">
+        {{#each drugs as |drug| }}
+            <option value="{{ drug.drugId }}">{{ drug.name}}</option>
+        {{/each}}
+    </select>
+    <button type="submit">Add treatment</button>
+</form>

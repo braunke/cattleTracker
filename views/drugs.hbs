@@ -2,11 +2,13 @@
     <tr>
         <th>Name</th>
         <th>Purpose</th>
-        <th>withdrawal time</th>
+        <th>withdrawal time (days)</th>
     </tr>
+    {{#each druglist as |drug| }}
     <tr>
-        <td>Aspirin</td>
-        <td>pain relief</td>
-        <td>no</td>
+        <td>{{drug.name}}</td>
+        <td>{{drug.purpose}}</td>
+        <td>{{drug.withdrawalperiod}}</td>
     </tr>
+    {{/each}}
 </table>
