@@ -17,10 +17,12 @@ sequelize
     .authenticate()
     .then(function() {
     console.log('Connection has been established successfully.');
+
 })
 .catch(function(err) {
     console.error('Unable to connect to the database:', err);
 });
+
 var Cow = sequelize.define('cow', {
     cowId: {
         type: Sequelize.INTEGER,
@@ -128,9 +130,11 @@ router.get('/drugs', function(req, res, next) {
         res.render('drugs', {'druglist' : drugs});
     })
 });
-router.get('/addCow', function(req, res, next) {
+router.get('/addCow/:eartag', function(req, res, next) {
+    var eartag = req.params.eartag
+    console.log(eartag)
     Types.all().then(function(type) {
-        res.render('addCow', {'types': type})
+        res.render('addCow', {'types': type, 'dameartag' : eartag})
     });
 });
 router.get('/cowPage/:id', function(req, res, next) {
@@ -161,26 +165,58 @@ router.post('/druglist', function(req,res,next) {
     res.redirect('drugs')
 });
 router.post('/newCow', function(req,res,next) {
-    res.redirect('/addCow')
+    var dameartag = req.body.eartag;
+    res.render('addCow', {"eartag" : dameartag})
 });
 router.post('/addCow', function(req, res, next) {
-    var eartag = req.body.eartag;
-    var description = req.body.description;
-    var type = req.body.typeId;
     var dameartag = req.body.dameartag;
     var sireeartag = req.body.sireeartag;
-    var birthing = req.body.birth;
-    var dob = req.body.dob;
-  Cow.create({
-      description: description,
-    dob: dob,
-    birthing: birthing,
-    eartag: eartag,
-    typeId: type,
-    damTag: dameartag,
-    sireTag: sireeartag}).then(
-      res.redirect('/addCow')
-  )
+    Cow.findOne({where: { eartag : dameartag}}).then(function(damcow){
+        Cow.findOne({where: { eartag : sireeartag}}).then(function(sirecow){
+            if(damcow && sirecow) {
+                var damId = damcow.cowId;
+                var sireId = sirecow.cowId;
+                var eartag = req.body.eartag;
+                var description = req.body.description;
+                var type = req.body.typeId;
+                var birthing = req.body.birth;
+                var dob = req.body.dob;
+                Cow.create({
+                    description: description,
+                    dob: dob,
+                    birthing: birthing,
+                    eartag: eartag,
+                    typeId: type,
+                    damId: damId,
+                    sireId: sireId
+                }).then(
+                    res.redirect('/')
+                )
+            }
+            else {
+                damId = null;
+                sireId = null;
+                eartag = req.body.eartag;
+                description = req.body.description;
+                type = req.body.typeId;
+                birthing = req.body.birth;
+                dob = req.body.dob;
+                Cow.create({
+                    description: description,
+                    dob: dob,
+                    birthing: birthing,
+                    eartag: eartag,
+                    typeId: type,
+                    damId: damId,
+                    sireId: sireId
+                }).then(
+                    res.redirect('/')
+                )
+            }
+        })
+
+    })
+
 });
 router.post('/treatment', function(req, res, next) {
     var dateGiven = req.body.dateGiven;

@@ -1,5 +1,5 @@
 <h1>Information</h1>
-<h2>ID: {{cow.eartag}}</h2>
+<h2 name="eartag">ID: {{cow.eartag}}</h2>
 <p>Description:{{cow.description}}</p>
 <p>Image</p>
 <p>DOB {{cow.dob}}</p>
@@ -23,7 +23,8 @@
     </tr>
     {{/each}}
 </table>
-<form method="POST" action="/newCow">
+<a href = '/addCow/{{cow.eartag}}'>Add cow</a>
+<form method="POST" action="/newCow/{{cow.eartag}}">
     <button type="submit" >Add calf</button>
 </form>
 <p>Health History</p>
