@@ -1,14 +1,15 @@
 <h1>Information</h1>
-<h2 name="eartag">ID: {{cow.eartag}}</h2>
+<a href='/homePage'>Back</a>
+<h1 style="color:red">{{cow.type.name}}</h1>
+<h2 name="eartag">Ear Tag Number: {{cow.eartag}}</h2>
+<p>Sire Ear Tag: {{cow.sireId}}</p>
+<p>Dam Ear Tag: {{cow.damId}}</p>
 <p>Description:{{cow.description}}</p>
 <p>Image</p>
 <p>DOB {{cow.dob}}</p>
-<h1 style="color:red">{{cow.type.name}}</h1>
 <p>Calving History</p>
 <table>
-
-
-        <tr>
+    <tr>
         <th>Calf ID</th>
         <th>DOB</th>
         <th>Sex</th>
@@ -18,15 +19,12 @@
     <tr>
         <td><a href = '/cowPage/{{calf.cowId}}'>{{calf.eartag}}</a></td>
         <td>{{calf.dob}}</td>
+        <td>{{calf.type.name}}</td>
         <td>{{calf.birthing}}</td>
-
     </tr>
     {{/each}}
 </table>
 <a href = '/addCow/{{cow.eartag}}'>Add cow</a>
-<form method="POST" action="/newCow/{{cow.eartag}}">
-    <button type="submit" >Add calf</button>
-</form>
 <p>Health History</p>
 <table>
     <tr>

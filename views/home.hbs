@@ -1,23 +1,29 @@
 <h1>Home Page</h1>
-<form id="myForm">
-    <input type="search" id="mySearch">
+<form method="GET" action="/homePage" id="myForm">
+    <input type="search" name="eartag">
 </form>
+<form method="GET" action="/homePage">
+    {{#each types as |type|}}
+        <input type="checkbox" name="type" value={{type.typeId}}>{{type.name}}<br>
+    {{/each}}
+    <input type="submit" value="Submit">
+</form>
+<a href="/homePage" >All cows</a>
 <table>
     <tr>
         <th>Tag Number</th>
         <th>Description</th>
-        <th>Status</th>
+        <th>Type</th>
     </tr>
     {{#each cows as |cow| }}
     <tr>
         <td><a href = '/cowPage/{{cow.cowId}}'>{{cow.eartag}}</a></td>
         <td>{{cow.description}}</td>
+        <td>{{cow.type.name}}</td>
     </tr>
-
-
     {{/each}}
 </table>
-<a href='/addCow'>Add Cow</a>
+<a href='/addCow/dam'>Add Cow</a>
 <a href='/treatment'>Add Treatment</a>
 
 <form method="POST" action="/druglist">
