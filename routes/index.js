@@ -129,7 +129,6 @@ router.get('/drugs', function(req, res, next) {
 });
 router.get('/addCow/:eartag', function(req, res, next) {
     var eartag = req.params.eartag;
-    console.log(eartag);
     Types.all().then(function(type) {
         res.render('addCow', {'types': type, 'dameartag' : eartag})
     });
@@ -175,17 +174,25 @@ router.post('/addCow', function(req, res, next) {
     var type = req.body.typeId;
     var birthing = req.body.birth;
     var dob = req.body.dob;
-    Cow.create({
-        description: description,
-        dob: dob,
-        birthing: birthing,
-        eartag: eartag,
-        typeId: type,
-        damId: damId,
-        sireId: sireId
-    }).then(
-        res.redirect('/homePage')
-    )
+    Cow.findAll({where: {eartag: eartag}}).then(function(cow) {
+        console.log(cow);
+        if(cow === []){
+            res.render('addCow', {"message": "A cow with that eartag exists already, choose a different number"})
+        }
+        else {
+            Cow.create({
+                description: description,
+                dob: dob,
+                birthing: birthing,
+                eartag: eartag,
+                typeId: type,
+                damId: damId,
+                sireId: sireId
+            }).then(
+                res.redirect('/homePage')
+            )
+        }
+    });
 });
 router.post('/treatment', function(req, res, next) {
     var dateGiven = req.body.dateGiven;

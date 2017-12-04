@@ -1,12 +1,13 @@
 <h1>Home Page</h1>
 <form method="GET" action="/homePage" id="myForm">
     <input type="search" name="eartag">
+    <input type="submit" value="Search">
 </form>
 <form method="GET" action="/homePage">
     {{#each types as |type|}}
         <input type="checkbox" name="type" value={{type.typeId}}>{{type.name}}<br>
     {{/each}}
-    <input type="submit" value="Submit">
+    <input type="submit" value="Search">
 </form>
 <a href="/homePage" >All cows</a>
 <table>
