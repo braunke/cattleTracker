@@ -179,7 +179,7 @@ router.post('/login', function(req, res, next) {
     var password = req.body.password;
     Users.findOne({where : {name : username, password : password}}).then(function(user){
         if (user){
-            console.log(user)
+            console.log(user);
             req.session.user = user;
             console.log(req.session.user.userId);
             res.redirect('/homePage')
