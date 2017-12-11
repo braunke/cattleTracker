@@ -1,7 +1,14 @@
+<a href="/logout">Logout</a>
+<h2>Hello {{username}}</h2>
 <h1>Home Page</h1>
-<a href="/logout"> Log Out</a>
+{{errorInput}}
 <form method="GET" action="/homePage" id="myForm">
-    <input type="search" name="eartag">
+<select name="searchType">
+    <option value="eartag">eartag</option>
+    <option value="description">description</option>
+</select>
+
+    <input type="search" name="searchWord">
     <input type="submit" value="Search">
 </form>
 <form method="GET" action="/homePage">

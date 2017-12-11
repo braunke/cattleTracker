@@ -2,10 +2,9 @@ var express = require('express');
 var moment = require('moment');
 var router = express.Router();
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize(process.env.HEROKU_URL, { //'cattle', 'kayla', 'Hank', {
-    //host: 'localhost',
+var sequelize = new Sequelize('cattle', 'kayla', 'Hank', {
+    host: 'localhost',
     dialect: 'postgres',
-    protocol: 'postgres',
     pool: {
         max: 100,
         min: 0,
@@ -96,7 +95,7 @@ var Users = sequelize.define('users', {
         primaryKey: true,
         autoIncrement: true
     },
-    name: {type: Sequelize.STRING},
+    username: {type: Sequelize.STRING},
     password: {type: Sequelize.STRING}
 });
 Drugs.hasMany(Treatment, {foreignKey: 'drugId'});
@@ -118,7 +117,7 @@ Treatment.belongsTo(Cow, {foreignKey: 'cowId'});
 //    withdrawalperiod: 30
 //});
 //Users.create({
-//    name: 'Kayla',
+//    username: 'Kayla',
 //    password: 'Hank'
 //});
 function requireLogin(req, res, next) {
@@ -132,16 +131,45 @@ function requireLogin(req, res, next) {
 router.get('/', function(req, res, next) {
   res.render('index');
 });
+router.post('/login', function(req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+    Users.findOne({where : {username : username, password : password}}).then(function(user){
+        if (user){
+            console.log(user);
+            req.session.user = user;
+            res.redirect('/homePage')
+        }
+        else {
+            res.render('index', {'loginerror' : 'Invalid username or password'})
+        }
+    })
+});
 //shows all cows or just the filtered ones depending on your search
 router.get('/homePage', requireLogin, function(req, res, next) {
+    var user = req.session.user.username;
+    console.log(req.query.searchType);
     var filter = {};
-    if (req.query.eartag) filter.eartag = req.query.eartag;
+    if (req.query.searchType == 'eartag') {
+        if (isNaN(req.query.searchWord)) {
+            var inputMessage = "Must enter a number"
+        }
+        else {
+            filter.eartag = req.query.searchWord;
+        }
+    }
+    if (req.query.searchType == 'description') {
+        var key = req.query.searchWord;
+        filter = {description: {like: '%' + key + '%'}}
+    }
+
     if (req.query.type) filter.typeId = req.query.type;
-    Cow.all({where: filter, include: [Types]}).then(function(cow){
-        Types.all().then(function(types){
-            res.render('home', {'cows' : cow, 'types' : types})
+    Cow.all({where: filter, include: [Types]}).then(function (cow) {
+        Types.all().then(function (types) {
+            res.render('home', {'cows': cow, 'types': types, 'username': user, "errorInput": inputMessage})
         })
     });
+
 });
 router.get('/drugs', requireLogin,  function(req, res, next) {
     Drugs.all().then(function(drugs){
@@ -174,21 +202,7 @@ router.get('/treatment', requireLogin, function(req, res, next) {
         })
     });
 });
-router.post('/login', function(req, res, next) {
-    var username = req.body.username;
-    var password = req.body.password;
-    Users.findOne({where : {name : username, password : password}}).then(function(user){
-        if (user){
-            console.log(user);
-            req.session.user = user;
-            console.log(req.session.user.userId);
-            res.redirect('/homePage')
-        }
-        else {
-            res.render('index', {'loginerror' : 'Invalid username or password'})
-        }
-    })
-});
+
 router.post('/all', function(req, res, next) {
     res.redirect('/homePage')
 });
@@ -244,9 +258,11 @@ router.post('/treatment', function(req, res, next) {
 router.post('/homePage', function(req, res, next) {
 });
 router.get('/logout', function(req, res) {
-    console.log(req.session.user.name);
+    console.log(req.session.user.username);
     req.session.destroy();
     res.redirect('/');
 });
+
+
 
 module.exports = router;
