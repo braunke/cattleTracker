@@ -102,11 +102,11 @@ Treatment.belongsTo(Drugs, {foreignKey: 'drugId'});
 Cow.hasMany(Treatment, {foreignKey: 'cowId'});
 Treatment.belongsTo(Cow, {foreignKey: 'cowId'});
 
-Users.sync({force : true});
-Treatment.sync({force : true});
-Types.sync({force : true});
-Cow.sync({force: true});
 Drugs.sync({force: true});
+Types.sync({force : true});
+Users.sync({force : true});
+Cow.sync({force: true});
+Treatment.sync({force : true});
 
 Types.create( {
    name: 'steer'
