@@ -109,7 +109,6 @@ function prepop() {
     Users.sync({force : true});
     Cow.sync({force: true});
     Treatment.sync({force : true});
-    */
 
     Types.create( {
         name: 'steer'
@@ -123,6 +122,7 @@ function prepop() {
         username: 'Kayla',
         password: 'Hank'
     });
+     */
 }
 
 function requireLogin(req, res, next) {
