@@ -136,7 +136,7 @@ router.get('/', function(req, res, next) {
         console.log(users.map(function(val) { return val.username;}));
         res.render('index', {'loginerror' : users.length + ' users in db'});
     });
-}
+});
 router.post('/login', function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
