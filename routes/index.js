@@ -109,7 +109,6 @@ Types.sync({force : true});
 Cow.sync({force: true});
 Drugs.sync({force: true});
 
- */
 Types.create( {
    name: 'steer'
 });
@@ -118,6 +117,7 @@ Drugs.create({
    purpose: 'treats bacterial problems',
    withdrawalperiod: 30
 });
+ */
 Users.create({
    username: 'Kayla',
    password: 'Hank'
