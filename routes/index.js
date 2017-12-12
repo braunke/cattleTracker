@@ -109,6 +109,7 @@ Types.sync({force : true});
 Cow.sync({force: true});
 Drugs.sync({force: true});
 
+ */
 Types.create( {
    name: 'steer'
 });
@@ -121,7 +122,6 @@ Users.create({
    username: 'Kayla',
    password: 'Hank'
 });
- */
 
 function requireLogin(req, res, next) {
     if (!(req.session && req.session.user)) {
