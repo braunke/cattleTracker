@@ -15,7 +15,7 @@ sequelize
     .authenticate()
     .then(function() {
     console.log('Connection has been established successfully.');
-    prepop();
+    // prepopulate(true);
 })
 .catch(function(err) {
     console.error('Unable to connect to the database:', err);
@@ -102,27 +102,39 @@ Treatment.belongsTo(Drugs, {foreignKey: 'drugId'});
 Cow.hasMany(Treatment, {foreignKey: 'cowId'});
 Treatment.belongsTo(Cow, {foreignKey: 'cowId'});
 
-function prepop() {
-    /*
-    Drugs.sync({force: true});
-    Types.sync({force : true});
-    Users.sync({force : true});
-    Cow.sync({force: true});
-    Treatment.sync({force : true});
+function prepopulate(sync) {
+    if (sync) {
+        Users.sync({force : true}).then(prepopulateUsers);
+        Types.sync({force : true}).then(prepopulateTypes);
+        Cow.sync({force: true});
+        Drugs.sync({force: true}).then(prepopulateDrugs);
+        Treatment.sync({force : true});
+    } else {
+        prepopulateUsers();
+        prepopulateTypes();
+        prepopulateDrugs();
+    }
+}
 
+function prepopulateUsers() {
+    Users.create({
+        username: 'Kayla',
+        password: 'Hank'
+    });
+}
+
+function prepopulateTypes() {
     Types.create( {
         name: 'steer'
     });
+}
+
+function prepopulateDrugs() {
     Drugs.create({
         name: 'penicillin',
         purpose: 'treats bacterial problems',
         withdrawalperiod: 30
     });
-    Users.create({
-        username: 'Kayla',
-        password: 'Hank'
-    });
-     */
 }
 
 function requireLogin(req, res, next) {
@@ -134,10 +146,7 @@ function requireLogin(req, res, next) {
 }
 /* GET login page. */
 router.get('/', function(req, res, next) {
-    Users.all().then(function(users){
-        console.log(users.map(function(val) { return val.username;}));
-        res.render('index', {'loginerror' : users.length + ' users in db'});
-    });
+    res.render('index');
 });
 router.post('/login', function(req, res, next) {
     var username = req.body.username;
