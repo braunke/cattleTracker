@@ -102,6 +102,7 @@ Treatment.belongsTo(Drugs, {foreignKey: 'drugId'});
 Cow.hasMany(Treatment, {foreignKey: 'cowId'});
 Treatment.belongsTo(Cow, {foreignKey: 'cowId'});
 
+/*
 Users.sync({force : true});
 Treatment.sync({force : true});
 Types.sync({force : true});
@@ -120,6 +121,7 @@ Users.create({
    username: 'Kayla',
    password: 'Hank'
 });
+ */
 
 function requireLogin(req, res, next) {
     if (!(req.session && req.session.user)) {
@@ -130,8 +132,11 @@ function requireLogin(req, res, next) {
 }
 /* GET login page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
-});
+    Users.all().then(function(users){
+        console.log(users.map(function(val) { return val.username;}));
+        res.render('index', {'loginerror' : users.length + ' users in db'});
+    });
+}
 router.post('/login', function(req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
