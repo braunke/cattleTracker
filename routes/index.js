@@ -15,7 +15,7 @@ sequelize
     .authenticate()
     .then(function() {
     console.log('Connection has been established successfully.');
-
+    prepop();
 })
 .catch(function(err) {
     console.error('Unable to connect to the database:', err);
@@ -102,24 +102,26 @@ Treatment.belongsTo(Drugs, {foreignKey: 'drugId'});
 Cow.hasMany(Treatment, {foreignKey: 'cowId'});
 Treatment.belongsTo(Cow, {foreignKey: 'cowId'});
 
-Drugs.sync({force: true});
-Types.sync({force : true});
-Users.sync({force : true});
-Cow.sync({force: true});
-Treatment.sync({force : true});
+function prepop() {
+    Drugs.sync({force: true});
+    Types.sync({force : true});
+    Users.sync({force : true});
+    Cow.sync({force: true});
+    Treatment.sync({force : true});
 
-Types.create( {
-   name: 'steer'
-});
-Drugs.create({
-   name: 'penicillin',
-   purpose: 'treats bacterial problems',
-   withdrawalperiod: 30
-});
-Users.create({
-   username: 'Kayla',
-   password: 'Hank'
-});
+    Types.create( {
+        name: 'steer'
+    });
+    Drugs.create({
+        name: 'penicillin',
+        purpose: 'treats bacterial problems',
+        withdrawalperiod: 30
+    });
+    Users.create({
+        username: 'Kayla',
+        password: 'Hank'
+    });
+}
 
 function requireLogin(req, res, next) {
     if (!(req.session && req.session.user)) {
