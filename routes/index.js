@@ -2,8 +2,7 @@ var express = require('express');
 var moment = require('moment');
 var router = express.Router();
 var Sequelize = require('sequelize');
-var sequelize = new Sequelize('cattle', 'kayla', 'Hank', {
-    host: 'localhost',
+var sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     pool: {
         max: 100,
