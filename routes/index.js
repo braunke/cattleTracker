@@ -108,11 +108,11 @@ Treatment.sync({force : true});
 Types.sync({force : true});
 Cow.sync({force: true});
 Drugs.sync({force: true});
+ */
 
 Types.create( {
    name: 'steer'
 });
- */
 Drugs.create({
    name: 'penicillin',
    purpose: 'treats bacterial problems',
