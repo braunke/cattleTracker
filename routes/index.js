@@ -103,11 +103,13 @@ Cow.hasMany(Treatment, {foreignKey: 'cowId'});
 Treatment.belongsTo(Cow, {foreignKey: 'cowId'});
 
 function prepop() {
+    /*
     Drugs.sync({force: true});
     Types.sync({force : true});
     Users.sync({force : true});
     Cow.sync({force: true});
     Treatment.sync({force : true});
+    */
 
     Types.create( {
         name: 'steer'
