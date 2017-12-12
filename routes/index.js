@@ -112,12 +112,12 @@ Drugs.sync({force: true});
 Types.create( {
    name: 'steer'
 });
+ */
 Drugs.create({
    name: 'penicillin',
    purpose: 'treats bacterial problems',
    withdrawalperiod: 30
 });
- */
 Users.create({
    username: 'Kayla',
    password: 'Hank'
