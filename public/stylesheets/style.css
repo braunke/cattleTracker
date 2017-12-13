@@ -6,3 +6,31 @@ body {
 a {
   color: #00B7FF;
 }
+
+.flex-horizontal {
+  display: flex;
+  align-items: center;
+}
+
+.flex-vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-horizontal div {
+  margin-right: 10px;
+}
+
+.greedy-flex {
+  flex: 1 1 100%;
+}
+
+.flexless {
+  flex: 0 0 auto;
+}
+
+@media (min-width: 768px) {
+  .dl-horizontal dt {
+    text-align: left !important;
+  }
+}

@@ -1,24 +1,44 @@
-<a href="/logout">Logout</a>
-<h2>Hello {{username}}</h2>
-<h1>Home Page</h1>
-{{errorInput}}
-<form method="GET" action="/homePage" id="myForm">
-<select name="searchType">
-    <option value="eartag">eartag</option>
-    <option value="description">description</option>
-</select>
-
-    <input type="search" name="searchWord">
-    <input type="submit" value="Search">
-</form>
-<form method="GET" action="/homePage">
+<div class="flex-horizontal">
+    <h1 class="greedy-flex">Home Page</h1>
+    <div class="flexless">
+        <strong><span class="glyphicon glyphicon-user"></span> {{username}}</strong>
+        <a href="/logout">(Logout)</a>
+    </div>
+</div>
+{{#if errorInput}}
+    <div class="alert alert-danger">{{errorInput}}</div>
+{{/if}}
+<form method="GET" action="/homePage" class="well">
+    <div class="flex-horizontal">
+        <div class="form-group">
+            <label for="searchType">Search Type</label>
+            <select id="searchType" class="form-control" name="searchType">
+                <option value="eartag">eartag</option>
+                <option value="description">description</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="searchWord">Search Word</label>
+            <input id="searchWord" class="form-control" type="search" name="searchWord">
+        </div>
+    </div>
     {{#each types as |type|}}
-        <input type="checkbox" name="type" value={{type.typeId}}>{{type.name}}<br>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="type" value={{type.typeId}}>
+                    {{type.name}}
+                </label>
+            </div>
+        </div>
     {{/each}}
-    <input type="submit" value="Search">
+    <button class="btn btn-primary" type="submit">
+        <span class="glyphicon glyphicon-search"></span>
+        Search
+    </button>
+    <a class="btn btn-default" href="/homePage">Show All Cows</a>
 </form>
-<a href="/homePage" >All cows</a>
-<table>
+<table class="table table-striped">
     <tr>
         <th>Tag Number</th>
         <th>Description</th>
@@ -32,9 +52,15 @@
     </tr>
     {{/each}}
 </table>
-<a href='/addCow/dam'>Add Cow</a>
-<a href='/treatment'>Add Treatment</a>
-
-<form method="POST" action="/druglist">
-    <button type="submit" >View medicines</button>
-</form>
+<a class="btn btn-success" href="/addCow/dam">
+    <span class="glyphicon glyphicon-plus"></span>
+    Add Cow
+</a>
+<a class="btn btn-success" href="/treatment">
+    <span class="glyphicon glyphicon-plus"></span>
+    Add Treatment
+</a>
+<a class="btn btn-primary" href="/drugs">
+    <span class="glyphicon glyphicon-list-alt"></span>
+    View medicines
+</a>

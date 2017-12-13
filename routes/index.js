@@ -1,141 +1,13 @@
 var express = require('express');
 var moment = require('moment');
 var router = express.Router();
-var Sequelize = require('sequelize');
-var sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
-    pool: {
-        max: 100,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
-});
-sequelize
-    .authenticate()
-    .then(function() {
-    console.log('Connection has been established successfully.');
-    // prepopulate(true);
-})
-.catch(function(err) {
-    console.error('Unable to connect to the database:', err);
-});
+var models = require('../models');
 
-var Cow = sequelize.define('cow', {
-    cowId: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    description: {
-        type: Sequelize.STRING
-    },
-    dob: {
-        type: Sequelize.DATEONLY
-    },
-    birthing: {
-        type: Sequelize.STRING
-    },
-    eartag: {
-        type: Sequelize.INTEGER
-    },
-    damId: {
-        type: Sequelize.INTEGER
-    },
-    sireId: {
-        type: Sequelize.INTEGER
-    }
-});
-var Types = sequelize.define('types', {
-    typeId: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    name: {
-        type:Sequelize.STRING
-    }
-});
-Types.hasMany(Cow, {foreignKey: 'typeId'});
-Cow.belongsTo(Types, {foreignKey: 'typeId'});
-var Treatment = sequelize.define('treatment', {
-    treatmentId: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    dateGiven: {
-        type: Sequelize.DATE
-    },
-    notes: {
-        type: Sequelize.STRING
-    }
-});
-
-var Drugs = sequelize.define('drugs', {
-    drugId: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    name: {
-        type: Sequelize.STRING
-    },
-    purpose: {
-        type: Sequelize.STRING
-    },
-    withdrawalperiod: {
-        type: Sequelize.INTEGER
-    }
-});
-var Users = sequelize.define('users', {
-    userId: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
-    username: {type: Sequelize.STRING},
-    password: {type: Sequelize.STRING}
-});
-Drugs.hasMany(Treatment, {foreignKey: 'drugId'});
-Treatment.belongsTo(Drugs, {foreignKey: 'drugId'});
-Cow.hasMany(Treatment, {foreignKey: 'cowId'});
-Treatment.belongsTo(Cow, {foreignKey: 'cowId'});
-
-function prepopulate(sync) {
-    if (sync) {
-        Users.sync({force : true}).then(prepopulateUsers);
-        Types.sync({force : true}).then(prepopulateTypes);
-        Cow.sync({force: true});
-        Drugs.sync({force: true}).then(prepopulateDrugs);
-        Treatment.sync({force : true});
-    } else {
-        prepopulateUsers();
-        prepopulateTypes();
-        prepopulateDrugs();
-    }
-}
-
-function prepopulateUsers() {
-    Users.create({
-        username: 'Kayla',
-        password: 'Hank'
-    });
-}
-
-function prepopulateTypes() {
-    Types.create( {
-        name: 'steer'
-    });
-}
-
-function prepopulateDrugs() {
-    Drugs.create({
-        name: 'penicillin',
-        purpose: 'treats bacterial problems',
-        withdrawalperiod: 30
-    });
-}
+var Users = models.Users;
+var Types = models.Types;
+var Cow = models.Cow;
+var Drugs = models.Drugs;
+var Treatment = models.Treatment;
 
 function requireLogin(req, res, next) {
     if (!(req.session && req.session.user)) {
@@ -144,6 +16,7 @@ function requireLogin(req, res, next) {
         next();
     }
 }
+
 /* GET login page. */
 router.get('/', function(req, res, next) {
     res.render('index');
@@ -171,11 +44,11 @@ router.get('/homePage', requireLogin, function(req, res, next) {
         if (isNaN(req.query.searchWord)) {
             var inputMessage = "Must enter a number"
         }
-        else {
+        else if (req.query.searchWord) {
             filter.eartag = req.query.searchWord;
         }
     }
-    if (req.query.searchType == 'description') {
+    if (req.query.searchType == 'description' && req.query.searchWord) {
         var key = req.query.searchWord;
         filter = {description: {like: '%' + key + '%'}}
     }
@@ -194,12 +67,14 @@ router.get('/drugs', requireLogin,  function(req, res, next) {
     })
 });
 router.get('/addCow/:eartag', requireLogin, function(req, res, next) {
+    var user = req.session.user.username;
     var eartag = req.params.eartag;
     Types.all().then(function(type) {
-        res.render('addCow', {'types': type, 'dameartag' : eartag})
+        res.render('addCow', {'types': type, 'dameartag' : eartag, username: user})
     });
 });
 router.get('/cowPage/:id', requireLogin, function(req, res, next) {
+    var user = req.session.user.username;
     var cowId = req.params.id;
     Cow.findOne({where: { cowId: cowId }, include: [Types, { model: Treatment, include: [Drugs]}]}).then(function(cow){
         cow.treatments.map(function(treatment) {
@@ -208,23 +83,17 @@ router.get('/cowPage/:id', requireLogin, function(req, res, next) {
             treatment.withdrawaldate = withdrawalDate.format('M/D/YYYY');
         });
         Cow.findAll({where: { damId: cow.eartag}, include: [Types]}).then(function(calf){
-            res.render('cowPage', { 'cow' : cow , 'calves' : calf});
+            res.render('cowPage', { 'cow' : cow , 'calves' : calf, username: user});
         });
     });
 });
 router.get('/treatment', requireLogin, function(req, res, next) {
+    var user = req.session.user.username;
     Drugs.all().then(function(drugs){
         Cow.all().then(function(cows){
-            res.render('treatments', {'drugs' : drugs, 'cows' : cows})
+            res.render('treatments', {'drugs' : drugs, 'cows' : cows, username: user})
         })
     });
-});
-
-router.post('/all', function(req, res, next) {
-    res.redirect('/homePage')
-});
-router.post('/druglist', function(req,res,next) {
-    res.redirect('drugs')
 });
 router.post('/newCow', function(req,res,next) {
     var dameartag = req.body.eartag;
@@ -268,11 +137,9 @@ router.post('/treatment', function(req, res, next) {
         dateGiven : dateGiven,
         notes: notes,
         drugId: drug,
-        cowId: cowId}).then(
-    res.redirect('/homePage')
-    )
-});
-router.post('/homePage', function(req, res, next) {
+        cowId: cowId}).then(function() {
+            res.redirect('/homePage')
+        })
 });
 router.get('/logout', function(req, res) {
     console.log(req.session.user.username);

@@ -1,44 +1,88 @@
-<h1>Information</h1>
-<a href='/homePage'>Back</a>
-<h1 style="color:red">{{cow.type.name}}</h1>
-<h2 name="eartag">Ear Tag Number: {{cow.eartag}}</h2>
-<p>Sire Ear Tag: {{cow.sireId}}</p>
-<p>Dam Ear Tag: {{cow.damId}}</p>
-<p>Description:{{cow.description}}</p>
-<p>Image</p>
-<p>DOB {{cow.dob}}</p>
-<p>Calving History</p>
-<table>
-    <tr>
-        <th>Calf ID</th>
-        <th>DOB</th>
-        <th>Sex</th>
-        <th>Notes</th>
-    </tr>
-    {{#each calves as |calf| }}
-    <tr>
-        <td><a href = '/cowPage/{{calf.cowId}}'>{{calf.eartag}}</a></td>
-        <td>{{calf.dob}}</td>
-        <td>{{calf.type.name}}</td>
-        <td>{{calf.birthing}}</td>
-    </tr>
-    {{/each}}
-</table>
-<a href = '/addCow/{{cow.eartag}}'>Add cow</a>
-<p>Health History</p>
-<table>
-    <tr>
-        <th>Date</th>
-        <th>Drug</th>
-        <th>Reason</th>
-        <th>Withdrawal Period</th>
-    </tr>
-    {{#each cow.treatments as |treatment| }}
-    <tr>
-        <td>{{treatment.givendate}}</td>
-        <td>{{treatment.drug.name}}</td>
-        <td>{{treatment.notes}}</td>
-        <td>{{treatment.drug.withdrawalperiod}} days --> {{treatment.withdrawaldate}}</td>
-    </tr>
-    {{/each}}
-</table>
+<a href='/homePage'><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+
+<div class="flex-horizontal">
+    <h1 class="greedy-flex">Cow {{cow.eartag}} <span class="glyphicon glyphicon-tag"></span></h1>
+    <div class="flexless">
+        <strong><span class="glyphicon glyphicon-user"></span> {{username}}</strong>
+        <a href="/logout">(Logout)</a>
+    </div>
+</div>
+
+<dl class="dl-horizontal">
+    <dt>Type</dt>
+    <dd>{{cow.type.name}}</dd>
+
+    <dt>DOB</dt>
+    <dd>{{cow.dob}}</dd>
+
+    <dt>Description</dt>
+    <dd>{{cow.description}}</dd>
+
+    <dt>Sire</dt>
+    <dd>{{cow.sireId}} <span class="glyphicon glyphicon-tag"></span></dd>
+
+    <dt>Dam</dt>
+    <dd>{{cow.damId}} <span class="glyphicon glyphicon-tag"></span></dd>
+</dl>
+
+<section class="panel panel-info">
+    <div class="panel-heading">
+        <h4 >Calving History</h4>
+    </div>
+    {{#if calves.length}}
+        <table class="table table-striped panel-body">
+            <tr>
+                <th>Calf ID</th>
+                <th>DOB</th>
+                <th>Sex</th>
+                <th>Notes</th>
+            </tr>
+            {{#each calves as |calf| }}
+                <tr>
+                    <td><a href = '/cowPage/{{calf.cowId}}'>{{calf.eartag}}</a></td>
+                    <td>{{calf.dob}}</td>
+                    <td>{{calf.type.name}}</td>
+                    <td>{{calf.birthing}}</td>
+                </tr>
+            {{/each}}
+        </table>
+    {{else}}
+        <div class="panel-body">
+            No calving history.
+        </div>
+    {{/if}}
+    <div class="panel-footer">
+        <a class="btn btn-success" href='/addCow/{{cow.eartag}}'>
+            <span class="glyphicon glyphicon-plus"></span>
+            Add cow
+        </a>
+    </div>
+</section>
+
+<section class="panel panel-info">
+    <div class="panel-heading">
+        <h4>Health History</h4>
+    </div>
+    {{#if cow.treatments.length}}
+        <table class="table table-striped panel-body">
+            <tr>
+                <th>Date</th>
+                <th>Drug</th>
+                <th>Reason</th>
+                <th>Withdrawal Period</th>
+            </tr>
+            {{#each cow.treatments as |treatment| }}
+                <tr>
+                    <td>{{treatment.givendate}}</td>
+                    <td>{{treatment.drug.name}}</td>
+                    <td>{{treatment.notes}}</td>
+                    <td>{{treatment.drug.withdrawalperiod}} days --> {{treatment.withdrawaldate}}</td>
+                </tr>
+            {{/each}}
+        </table>
+    {{else}}
+        <div class="panel-body">
+            No health history.
+        </div>
+    {{/if}}
+</section>

@@ -1,20 +1,42 @@
-<a href='/homePage'>Back</a>
+<a href='/homePage'><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
 
-<h1>New Treatment</h1>
-<form method="POST" action="/treatment">
-    <select name="cowId">
-    {{#each cows as |cow| }}
-        <option value="{{ cow.cowId }}">{{ cow.eartag}}</option>
-    {{/each}}
-    </select>
-    <p>date given</p>
-    <input type="date" name="dateGiven" placeholder="Date Given">
-    <p>reason</p>
-    <input type="text" name="notes" placeholder="reason">
-    <select name="drugId">
-        {{#each drugs as |drug| }}
-            <option value="{{ drug.drugId }}">{{ drug.name}}</option>
-        {{/each}}
-    </select>
-    <button type="submit">Add treatment</button>
+<div class="flex-horizontal">
+    <h1 class="greedy-flex">New Treatment</h1>
+    <div class="flexless">
+        <strong><span class="glyphicon glyphicon-user"></span> {{username}}</strong>
+        <a href="/logout">(Logout)</a>
+    </div>
+</div>
+
+<form method="POST" action="/treatment" class="well col-xs-6">
+
+    <div class="form-group">
+        <label for="cowId">Cow</label>
+        <select name="cowId" class="form-control">
+            {{#each cows as |cow| }}
+                <option value="{{ cow.cowId }}">{{ cow.eartag}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="dateGiven">Date Given</label>
+        <input class="form-control" id="dateGiven" name="dateGiven" type="date" name="dateGiven" placeholder="Date Given">
+    </div>
+
+    <div class="form-group">
+        <label for="reason">Reason</label>
+        <input class="form-control" id="reason" type="text" name="notes" placeholder="reason">
+    </div>
+
+    <div class="form-group">
+        <label for="drugId">Drug</label>
+        <select name="drugId" class="form-control">
+            {{#each drugs as |drug| }}
+                <option value="{{ drug.drugId }}">{{ drug.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Add treatment</button>
 </form>
