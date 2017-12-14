@@ -58,6 +58,12 @@ function prepopulateTypes() {
     Types.create( {
         name: 'steer'
     });
+    Types.create( {
+        name: 'cow'
+    });
+    Types.crate( {
+        name: 'bull'
+    });
 }
 
 function prepopulateDrugs() {
@@ -67,7 +73,6 @@ function prepopulateDrugs() {
         withdrawalperiod: 30
     });
 }
-
 module.exports = {
     Users: Users,
     Types: Types,

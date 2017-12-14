@@ -22,6 +22,12 @@ router.get('/', function(req, res, next) {
     res.render('index');
 });
 router.post('/login', function(req, res, next) {
+    Types.create( {
+        name: 'cow'
+    });
+    Types.create( {
+        name: 'bull'
+    });
     var username = req.body.username;
     var password = req.body.password;
     Users.findOne({where : {username : username, password : password}}).then(function(user){
