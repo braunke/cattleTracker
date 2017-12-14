@@ -1,88 +1,98 @@
-<a href='/homePage'><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+<div class="content-container page-container">
+    <a href='/homePage'><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
 
-<div class="flex-horizontal">
-    <h1 class="greedy-flex">Cow {{cow.eartag}} <span class="glyphicon glyphicon-tag"></span></h1>
-    <div class="flexless">
-        <strong><span class="glyphicon glyphicon-user"></span> {{username}}</strong>
-        <a href="/logout">(Logout)</a>
+    <div class="flex-horizontal">
+        <h1 class="greedy-flex">Cow {{cow.eartag}} <span class="glyphicon glyphicon-tag"></span></h1>
+        <div class="flexless">
+            <strong><span class="glyphicon glyphicon-user"></span> {{username}}</strong>
+            <a href="/logout">(Logout)</a>
+        </div>
     </div>
+
+    <dl class="dl-horizontal">
+        <dt>Type</dt>
+        <dd>{{cow.type.name}}</dd>
+
+        <dt>DOB</dt>
+        <dd>{{cow.dob}}</dd>
+
+        <dt>Description</dt>
+        <dd>{{cow.description}}</dd>
+
+        <dt>Sire</dt>
+        <dd>{{cow.sireId}} <span class="glyphicon glyphicon-tag"></span></dd>
+
+        <dt>Dam</dt>
+        <dd>{{cow.damId}} <span class="glyphicon glyphicon-tag"></span></dd>
+    </dl>
+
+    <section class="panel panel-info">
+        <div class="panel-heading">
+            <h4 >Calving History</h4>
+        </div>
+        {{#if calves.length}}
+            <table class="table table-striped panel-body">
+                <tr>
+                    <th>Calf ID</th>
+                    <th>DOB</th>
+                    <th>Sex</th>
+                    <th>Notes</th>
+                </tr>
+                {{#each calves as |calf| }}
+                    <tr>
+                        <td><a href = '/cowPage/{{calf.cowId}}'>{{calf.eartag}}</a></td>
+                        <td>{{calf.dob}}</td>
+                        <td>{{calf.type.name}}</td>
+                        <td>{{calf.birthing}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        {{else}}
+            <div class="panel-body">
+                No calving history.
+            </div>
+        {{/if}}
+        <div class="panel-footer">
+            <a class="btn btn-success" href='/addCow/{{cow.eartag}}'>
+                <span class="glyphicon glyphicon-plus"></span>
+                Add cow
+            </a>
+        </div>
+    </section>
+
+    <section class="panel panel-info">
+        <div class="panel-heading">
+            <h4>Health History</h4>
+        </div>
+        {{#if cow.treatments.length}}
+            <table class="table table-striped panel-body">
+                <tr>
+                    <th>Date</th>
+                    <th>Drug</th>
+                    <th>Reason</th>
+                    <th>Withdrawal Period</th>
+                </tr>
+                {{#each cow.treatments as |treatment| }}
+                    <tr>
+                        <td>{{treatment.givendate}}</td>
+                        <td>{{treatment.drug.name}}</td>
+                        <td>{{treatment.notes}}</td>
+                        <td>{{treatment.drug.withdrawalperiod}} days --> {{treatment.withdrawaldate}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        {{else}}
+            <div class="panel-body">
+                No health history.
+            </div>
+        {{/if}}
+    </section>
 </div>
 
-<dl class="dl-horizontal">
-    <dt>Type</dt>
-    <dd>{{cow.type.name}}</dd>
-
-    <dt>DOB</dt>
-    <dd>{{cow.dob}}</dd>
-
-    <dt>Description</dt>
-    <dd>{{cow.description}}</dd>
-
-    <dt>Sire</dt>
-    <dd>{{cow.sireId}} <span class="glyphicon glyphicon-tag"></span></dd>
-
-    <dt>Dam</dt>
-    <dd>{{cow.damId}} <span class="glyphicon glyphicon-tag"></span></dd>
-</dl>
-
-<section class="panel panel-info">
-    <div class="panel-heading">
-        <h4 >Calving History</h4>
-    </div>
-    {{#if calves.length}}
-        <table class="table table-striped panel-body">
-            <tr>
-                <th>Calf ID</th>
-                <th>DOB</th>
-                <th>Sex</th>
-                <th>Notes</th>
-            </tr>
-            {{#each calves as |calf| }}
-                <tr>
-                    <td><a href = '/cowPage/{{calf.cowId}}'>{{calf.eartag}}</a></td>
-                    <td>{{calf.dob}}</td>
-                    <td>{{calf.type.name}}</td>
-                    <td>{{calf.birthing}}</td>
-                </tr>
-            {{/each}}
-        </table>
-    {{else}}
-        <div class="panel-body">
-            No calving history.
+<div class="panel panel-default panel-home">
+    <div class="panel-heading search">
+        <div class="content-container text-center">
+            <strong>&copy; 2017 Cattle Tracker</strong>
         </div>
-    {{/if}}
-    <div class="panel-footer">
-        <a class="btn btn-success" href='/addCow/{{cow.eartag}}'>
-            <span class="glyphicon glyphicon-plus"></span>
-            Add cow
-        </a>
     </div>
-</section>
-
-<section class="panel panel-info">
-    <div class="panel-heading">
-        <h4>Health History</h4>
-    </div>
-    {{#if cow.treatments.length}}
-        <table class="table table-striped panel-body">
-            <tr>
-                <th>Date</th>
-                <th>Drug</th>
-                <th>Reason</th>
-                <th>Withdrawal Period</th>
-            </tr>
-            {{#each cow.treatments as |treatment| }}
-                <tr>
-                    <td>{{treatment.givendate}}</td>
-                    <td>{{treatment.drug.name}}</td>
-                    <td>{{treatment.notes}}</td>
-                    <td>{{treatment.drug.withdrawalperiod}} days --> {{treatment.withdrawaldate}}</td>
-                </tr>
-            {{/each}}
-        </table>
-    {{else}}
-        <div class="panel-body">
-            No health history.
-        </div>
-    {{/if}}
-</section>
+</div>

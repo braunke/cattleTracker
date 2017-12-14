@@ -1,55 +1,69 @@
-<a href='/homePage'><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+<div class="content-container page-container">
+    <a href='/homePage'><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
 
-<div class="flex-horizontal">
-    <h1 class="greedy-flex">Add Cow</h1>
-    <div class="flexless">
-        <strong><span class="glyphicon glyphicon-user"></span> {{username}}</strong>
-        <a href="/logout">(Logout)</a>
+    <div class="flex-horizontal">
+        <h1 class="greedy-flex">Add Cow</h1>
+        <div class="flexless">
+            <strong><span class="glyphicon glyphicon-user"></span> {{username}}</strong>
+            <a href="/logout">(Logout)</a>
+        </div>
     </div>
 </div>
+<div class="panel panel-default panel-home">
+    <div class="panel-heading" id="addCowPageBack"></div>
+</div>
+<div class="content-container page-container clearfix">
+    {{message}}
+    <p>Enter info</p>
+    <form method="POST" action="/addCow" class="well col-sm-6" id="newCow">
 
-{{message}}
-<p>Enter info</p>
-<form method="POST" action="/addCow" class="well col-xs-6">
+        <div class="form-group">
+            <label for="eartag">Ear Tag</label>
+            <input id="eartag" class="form-control" type="number" name="eartag" placeholder="eartag" required>
+        </div>
 
-    <div class="form-group">
-        <label for="eartag">Ear Tag</label>
-        <input id="eartag" class="form-control" type="number" name="eartag" placeholder="eartag" required>
+        <div class="form-group">
+            <label for="birth">Birthing Notes</label>
+            <input id="birth" class="form-control" type="text" name="birth" placeholder="birth" required>
+        </div>
+
+
+        <div class="form-group">
+            <label for="dob">DOB</label>
+            <input id="dob" class="form-control" type="date" name="dob" placeholder="DOB" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input id="description" class="form-control" type="text" name="description" placeholder="description" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dameartag">Dam Eartag</label>
+            <input id="dameartag" value="{{dameartag}}" class="form-control" type="number" name="dameartag" placeholder="dam" required>
+        </div>
+
+        <div class="form-group">
+            <label for="sireeartag">Sire Eartag</label>
+            <input id="sireeartag" class="form-control" type="number" name="sireeartag" placeholder="sire" required>
+        </div>
+
+        <div class="form-group">
+            <label for="typeId">Type</label>
+            <select name="typeId" class="form-control">
+                {{#each types as |type| }}
+                    <option value="{{ type.typeId }}">{{ type.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add cow</button>
+    </form>
+</div>
+<div class="panel panel-default panel-home">
+    <div class="panel-heading search">
+        <div class="content-container text-center">
+            <strong>&copy; 2017 Cattle Tracker</strong>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label for="birth">Birthing Notes</label>
-        <input id="birth" class="form-control" type="text" name="birth" placeholder="birth" required>
-    </div>
-
-    <div class="form-group">
-        <label for="dob">DOB</label>
-        <input id="dob" class="form-control" type="date" name="dob" placeholder="DOB" required>
-    </div>
-
-    <div class="form-group">
-        <label for="description">Description</label>
-        <input id="description" class="form-control" type="text" name="description" placeholder="description" required>
-    </div>
-
-    <div class="form-group">
-        <label for="dameartag">Dam Eartag</label>
-        <input id="dameartag" value="{{dameartag}}" class="form-control" type="number" name="dameartag" placeholder="dam" required>
-    </div>
-
-    <div class="form-group">
-        <label for="sireeartag">Sire Eartag</label>
-        <input id="sireeartag" class="form-control" type="number" name="sireeartag" placeholder="sire" required>
-    </div>
-
-    <div class="form-group">
-        <label for="typeId">Type</label>
-        <select name="typeId" class="form-control">
-            {{#each types as |type| }}
-                <option value="{{ type.typeId }}">{{ type.name}}</option>
-            {{/each}}
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Add cow</button>
-</form>
+</div>

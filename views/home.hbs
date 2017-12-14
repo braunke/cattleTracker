@@ -1,5 +1,5 @@
-<div class="flex-horizontal">
-    <h1 class="greedy-flex">Home Page</h1>
+<div class="flex-horizontal content-container">
+    <h1 class="greedy-flex">Cattle Tracker</h1>
     <div class="flexless">
         <strong><span class="glyphicon glyphicon-user"></span> {{username}}</strong>
         <a href="/logout">(Logout)</a>
@@ -8,59 +8,81 @@
 {{#if errorInput}}
     <div class="alert alert-danger">{{errorInput}}</div>
 {{/if}}
-<form method="GET" action="/homePage" class="well">
-    <div class="flex-horizontal">
-        <div class="form-group">
-            <label for="searchType">Search Type</label>
-            <select id="searchType" class="form-control" name="searchType">
-                <option value="eartag">eartag</option>
-                <option value="description">description</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="searchWord">Search Word</label>
-            <input id="searchWord" class="form-control" type="search" name="searchWord">
+<div class="panel panel-default panel-home">
+    <div class="panel-heading" id="homePageBack">
+        <h2>Cattle Tracker</h2>
+    </div>
+    <div class="panel-heading search">
+        <div class="content-container">
+            <form method="GET" action="/homePage">
+                <div class="flex-horizontal">
+                    <div class="form-group">
+                        <label for="searchType">Search Type</label>
+                        <select id="searchType" class="form-control" name="searchType">
+                            <option value="eartag">eartag</option>
+                            <option value="description">description</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchWord">Search Word</label>
+                        <input id="searchWord" class="form-control" type="search" name="searchWord">
+                    </div>
+                </div>
+                <div class="flex-horizontal">
+                    {{#each types as |type|}}
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="type" value={{type.typeId}}>
+                                    {{type.name}}
+                                </label>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+                <button class="btn btn-primary" type="submit">
+                    <span class="glyphicon glyphicon-search"></span>
+                    Search
+                </button>
+                <a class="btn btn-default" href="/homePage">Show All Cows</a>
+            </form>
         </div>
     </div>
-    {{#each types as |type|}}
-        <div class="form-group">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" name="type" value={{type.typeId}}>
-                    {{type.name}}
-                </label>
-            </div>
+    <div class="panel-heading panel-controls">
+        <div class="content-container flex-horizontal">
+            <a class="btn btn-success" href="/addCow/dam">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add Cow
+            </a>
+            <a class="btn btn-success" href="/treatment">
+                <span class="glyphicon glyphicon-plus"></span>
+                Add Treatment
+            </a>
+            <a class="btn btn-primary" href="/drugs">
+                <span class="glyphicon glyphicon-list-alt"></span>
+                View medicines
+            </a>
         </div>
-    {{/each}}
-    <button class="btn btn-primary" type="submit">
-        <span class="glyphicon glyphicon-search"></span>
-        Search
-    </button>
-    <a class="btn btn-default" href="/homePage">Show All Cows</a>
-</form>
-<table class="table table-striped">
-    <tr>
-        <th>Tag Number</th>
-        <th>Description</th>
-        <th>Type</th>
-    </tr>
-    {{#each cows as |cow| }}
-    <tr>
-        <td><a href = '/cowPage/{{cow.cowId}}'>{{cow.eartag}}</a></td>
-        <td>{{cow.description}}</td>
-        <td>{{cow.type.name}}</td>
-    </tr>
-    {{/each}}
-</table>
-<a class="btn btn-success" href="/addCow/dam">
-    <span class="glyphicon glyphicon-plus"></span>
-    Add Cow
-</a>
-<a class="btn btn-success" href="/treatment">
-    <span class="glyphicon glyphicon-plus"></span>
-    Add Treatment
-</a>
-<a class="btn btn-primary" href="/drugs">
-    <span class="glyphicon glyphicon-list-alt"></span>
-    View medicines
-</a>
+    </div>
+    <div class="panel-body panel-body-table content-container">
+        <table class="table table-striped">
+            <tr>
+                <th>Tag Number</th>
+                <th>Description</th>
+                <th>Type</th>
+            </tr>
+            {{#each cows as |cow| }}
+                <tr>
+                    <td><a href = '/cowPage/{{cow.cowId}}'>{{cow.eartag}}</a></td>
+                    <td>{{cow.description}}</td>
+                    <td>{{cow.type.name}}</td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+    <div class="panel-heading search">
+        <div class="content-container text-center">
+            <strong>&copy; 2017 Cattle Tracker</strong>
+        </div>
+    </div>
+</div>

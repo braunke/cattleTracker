@@ -1,5 +1,4 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -33,4 +32,136 @@ a {
   .dl-horizontal dt {
     text-align: left !important;
   }
+}
+#homePageBack {
+  background-image: url('../images/cows5.jpeg');
+  background-size: cover;
+  background-position: top left;
+  height: 350px;
+  display: flex;
+  align-items: flex-end;
+}
+#homePageBack h2 {
+  color: white;
+  text-shadow: black 0px 0px 10px;
+}
+
+@media (max-width: 560px) {
+  #homePageBack {
+    height: 180px;
+  }
+}
+@media (min-width: 561px) and (max-width: 768px) {
+  #homePageBack {
+    height: 250px;
+  }
+}
+
+#mainPageBack {
+  background-image: url('../images/cows2.jpg');
+  height: 100%;
+  background-size: cover;
+  justify-content: space-between;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+#addCowPageBack {
+  background-image: url('../images/cows3.jpg');
+  background-size: cover;
+  background-position: top left;
+  height: 350px;
+  display: flex;
+  align-items: flex-end;
+}
+
+@media (max-width: 560px) {
+  #addCowPageBack {
+    height: 180px;
+  }
+}
+@media (min-width: 561px) and (max-width: 768px) {
+  #addCowPageBack {
+    height: 250px;
+  }
+}
+
+#mainPageBack > * {
+  flex: 0 0 auto;
+}
+
+#mainPageBack > .panel {
+  width: 100%;
+  border-radius: 0;
+}
+
+#homePageBack h2 {
+  max-width: 1100px;
+  width: 100%;
+  text-align: right;
+  margin: 0 auto;
+}
+
+.panel-body.panel-body-table {
+  padding: 0;
+}
+
+.panel-body.panel-body-table table {
+  margin: 20px 0;
+}
+
+.panel-heading.search {
+  color: #31708f;
+  background-color: #d9edf7;
+  padding: 40px 0;
+  border-top: 1px solid #ddd;
+}
+
+.panel-heading.panel-controls .flex-horizontal {
+  justify-content: flex-end;
+}
+
+@media (max-width: 525px) {
+  .panel-heading.panel-controls .flex-horizontal {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
+.panel-heading.panel-controls a {
+  margin: 2px;
+}
+
+.content-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.panel-home {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+.well.login {
+  margin: 20px;
+  max-width: 400px;
+}
+
+.page-container {
+  padding: 20px;
+}
+
+.content-container {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+#newCow {
+  background-color: #d9edf7;
+}
+#treatment{
+  background-color: #d9edf7;
 }

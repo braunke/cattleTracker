@@ -38,7 +38,6 @@ router.post('/login', function(req, res, next) {
 //shows all cows or just the filtered ones depending on your search
 router.get('/homePage', requireLogin, function(req, res, next) {
     var user = req.session.user.username;
-    console.log(req.query.searchType);
     var filter = {};
     if (req.query.searchType == 'eartag') {
         if (isNaN(req.query.searchWord)) {
@@ -54,6 +53,7 @@ router.get('/homePage', requireLogin, function(req, res, next) {
     }
 
     if (req.query.type) filter.typeId = req.query.type;
+    console.log(req.query.type);
     Cow.all({where: filter, include: [Types]}).then(function (cow) {
         Types.all().then(function (types) {
             res.render('home', {'cows': cow, 'types': types, 'username': user, "errorInput": inputMessage})
@@ -62,8 +62,9 @@ router.get('/homePage', requireLogin, function(req, res, next) {
 
 });
 router.get('/drugs', requireLogin,  function(req, res, next) {
+    var user = req.session.user.username;
     Drugs.all().then(function(drugs){
-        res.render('drugs', {'druglist' : drugs});
+        res.render('drugs', {'druglist' : drugs, username: user});
     })
 });
 router.get('/addCow/:eartag', requireLogin, function(req, res, next) {

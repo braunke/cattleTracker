@@ -1,14 +1,33 @@
-<table class="table table-striped">
-    <tr>
-        <th>Name</th>
-        <th>Purpose</th>
-        <th>withdrawal time (days)</th>
-    </tr>
-    {{#each druglist as |drug| }}
-    <tr>
-        <td>{{drug.name}}</td>
-        <td>{{drug.purpose}}</td>
-        <td>{{drug.withdrawalperiod}}</td>
-    </tr>
-    {{/each}}
-</table>
+<div class="content-container page-container">
+    <a href='/homePage'><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+
+    <div class="flex-horizontal">
+        <h1 class="greedy-flex">Drugs</h1>
+        <div class="flexless">
+            <strong><span class="glyphicon glyphicon-user"></span> {{username}}</strong>
+            <a href="/logout">(Logout)</a>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Purpose</th>
+            <th>withdrawal time (days)</th>
+        </tr>
+        {{#each druglist as |drug| }}
+            <tr>
+                <td>{{drug.name}}</td>
+                <td>{{drug.purpose}}</td>
+                <td>{{drug.withdrawalperiod}}</td>
+            </tr>
+        {{/each}}
+    </table>
+</div>
+<div class="panel panel-default panel-home">
+    <div class="panel-heading search">
+        <div class="content-container text-center">
+            <strong>&copy; 2017 Cattle Tracker</strong>
+        </div>
+    </div>
+</div>

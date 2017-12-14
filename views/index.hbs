@@ -1,17 +1,37 @@
-<h1>Cattle Tracker</h1>
-<p>Sign In</p>
-{{loginerror}}
-<form method="POST" action="/login">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+<div class="bg" id="mainPageBack">
+    <div class="well login">
+        <h1>Cattle Tracker</h1>
+        <p>Sign In</p>
+        {{loginerror}}
+        <form method="POST" action="/login">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 
-        <input type="text" name="username" class="form-control" placeholder="Username" required><br>
+                <input type="text" name="username" class="form-control" placeholder="Username" required><br>
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" name="password" class="form-control" placeholder="Password" required><br>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Login</button>
+        </form>
     </div>
-    <br>
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-        <input type="password" name="password" class="form-control" placeholder="Password" required><br>
+    <div class="panel panel-default panel-home">
+        <div class="panel-heading search">
+            <div class="content-container text-center">
+                <strong>&copy; 2017 Cattle Tracker</strong>
+            </div>
+        </div>
     </div>
-    <br>
-    <button type="submit" class="btn btn-success">Login</button>
-</form>
+</div>
+<style>
+    body, html {
+        height:100%
+    }
+    .bg{
+        background-color: powderblue;
+
+    }
+</style>
