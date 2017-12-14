@@ -2,13 +2,13 @@ var express = require('express');
 var moment = require('moment');
 var router = express.Router();
 var models = require('../models');
-
+//connects to the database files
 var Users = models.Users;
 var Types = models.Types;
 var Cow = models.Cow;
 var Drugs = models.Drugs;
 var Treatment = models.Treatment;
-
+//requires users to be signed in the reach certain pages
 function requireLogin(req, res, next) {
     if (!(req.session && req.session.user)) {
         res.redirect('/');
@@ -16,7 +16,7 @@ function requireLogin(req, res, next) {
         next();
     }
 }
-
+// used this to learn sequelize http://docs.sequelizejs.com/manual/installation/getting-started
 /* GET login page. */
 router.get('/', function(req, res, next) {
     res.render('index');
@@ -26,7 +26,6 @@ router.post('/login', function(req, res, next) {
     var password = req.body.password;
     Users.findOne({where : {username : username, password : password}}).then(function(user){
         if (user){
-            console.log(user);
             req.session.user = user;
             res.redirect('/homePage')
         }
@@ -51,7 +50,7 @@ router.get('/homePage', requireLogin, function(req, res, next) {
         var key = req.query.searchWord;
         filter = {description: {like: '%' + key + '%'}}
     }
-
+//grabs filtered cows and types to display on man page
     if (req.query.type) filter.typeId = req.query.type;
     console.log(req.query.type);
     Cow.all({where: filter, include: [Types]}).then(function (cow) {
@@ -74,6 +73,7 @@ router.get('/addCow/:eartag', requireLogin, function(req, res, next) {
         res.render('addCow', {'types': type, 'dameartag' : eartag, username: user})
     });
 });
+//shows info for a specific cow, draws info from multiple tables
 router.get('/cowPage/:id', requireLogin, function(req, res, next) {
     var user = req.session.user.username;
     var cowId = req.params.id;
@@ -100,6 +100,7 @@ router.post('/newCow', function(req,res,next) {
     var dameartag = req.body.eartag;
     res.render('addCow', {"eartag" : dameartag})
 });
+//grabs info from form to enter in new cow info
 router.post('/addCow', function(req, res, next) {
     var damId = req.body.dameartag;
     var sireId = req.body.sireeartag;
@@ -143,11 +144,7 @@ router.post('/treatment', function(req, res, next) {
         })
 });
 router.get('/logout', function(req, res) {
-    console.log(req.session.user.username);
     req.session.destroy();
     res.redirect('/');
 });
-
-
-
 module.exports = router;

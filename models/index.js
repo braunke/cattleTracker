@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-
+//sets up connection to database
 var sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     pool: {
@@ -9,13 +9,13 @@ var sequelize = new Sequelize(process.env.DATABASE_URL, {
         idle: 10000
     }
 });
-
+//connects to the files that create the tables
 var Cow = require('./cows')(Sequelize, sequelize);
 var Drugs = require('./drugs')(Sequelize, sequelize);
 var Treatment = require('./treatments')(Sequelize, sequelize);
 var Types = require('./types')(Sequelize, sequelize);
 var Users = require('./users')(Sequelize, sequelize);
-
+//creates foreign keys
 Types.hasMany(Cow, {foreignKey: 'typeId'});
 Cow.belongsTo(Types, {foreignKey: 'typeId'});
 Drugs.hasMany(Treatment, {foreignKey: 'drugId'});
@@ -32,7 +32,7 @@ sequelize
     .catch(function(err) {
         console.error('Unable to connect to the database:', err);
     });
-
+//used to pre-populate tables
 function prepopulate(sync) {
     if (sync) {
         Users.sync({force : true}).then(prepopulateUsers);
